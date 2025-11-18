@@ -4,18 +4,25 @@ import cors from "cors";
 import { configDotenv } from "dotenv";
 
 import feedbackReportRoutes from "./routes/feedbackReport.js";
+import questionRoutes from "./routes/questionRoutes.js";
+import testRoutes from "./routes/testRoutes.js";
+import testResultRoutes from "./routes/testResultRoutes.js";
 
 configDotenv(); // initialize env(environment variable)
 
 const app = express();
 
-// Middleware
+const allowedOrigins = (process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: allowedOrigins.length > 0 ? allowedOrigins : "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
+    credentials: allowedOrigins.length > 0,
   })
 );
 
@@ -33,8 +40,10 @@ connect(MONGO_URI)
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch((error) => console.error("❌ MongoDB connection error:", error));
 
-// Routes
-app.use("/api", feedbackReportRoutes);
+app.use("/api/feedback", feedbackReportRoutes);
+app.use("/api/questions", questionRoutes);
+app.use("/api/tests", testRoutes);
+app.use("/api/test-results", testResultRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {
@@ -50,7 +59,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log(`⚡️ Server is running on port ${PORT}`);

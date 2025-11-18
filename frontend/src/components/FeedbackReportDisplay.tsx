@@ -25,9 +25,15 @@ export default function FeedbackReportDisplay({
     <div className="w-full max-w-6xl mx-auto p-6 space-y-6">
       {/* Header Section */}
       <div className="bg-white dark:bg-zinc-900 rounded-lg shadow-md p-6 border border-zinc-200 dark:border-zinc-800">
-        <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mb-4">
+        <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">
           Feedback Report
         </h2>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+          Test:{" "}
+          <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+            {report.testTitle}
+          </span>
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
             <p className="text-sm text-zinc-600 dark:text-zinc-400">

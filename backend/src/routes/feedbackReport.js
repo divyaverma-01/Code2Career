@@ -1,5 +1,4 @@
 import { Router } from "express";
-const router = Router();
 import {
   generateFeedbackReport,
   getUserFeedbackReports,
@@ -15,19 +14,18 @@ import {
  * GET /api/feedback-report/report/:reportId - Get a specific feedback report by ID
  */
 
+const router = Router();
+
 // Generate feedback report
-router.post("/feedback-report", generateFeedbackReport);
+router.post("/report", generateFeedbackReport);
 
 // Get user's feedback reports
-router.get("/feedback-report/:userId", getUserFeedbackReports);
+router.get("/user/:userId", getUserFeedbackReports);
 
 // Get specific feedback report
-router.get("/feedback-report/report/:reportId", getFeedbackReportById);
+router.get("/report/:reportId", getFeedbackReportById);
 
 // Get only the test data for a specific feedback report
-router.get(
-  "/feedback-report/report/:reportId/test-data",
-  getTestDataByReportId
-);
+router.get("/report/:reportId/test-data", getTestDataByReportId);
 
 export default router;

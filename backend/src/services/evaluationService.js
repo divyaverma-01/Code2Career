@@ -323,7 +323,6 @@ function evaluateTest(testData) {
     recommendations,
     communicationScore,
     codeQualityScore,
-    testData, // Store original test data for reference
   };
 
   return feedbackReport;
