@@ -11,7 +11,7 @@ import {
   TestQuestion,
   TestSummary,
 } from "@/lib/api";
-import FeedbackReportDisplay from "@/components/FeedbackReportDisplay";
+import FeedbackReportDisplay from "@/components/feedback-report/FeedbackReportDisplay";
 
 interface AnswerMap {
   [questionId: string]: string;
