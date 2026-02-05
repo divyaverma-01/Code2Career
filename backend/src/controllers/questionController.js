@@ -31,12 +31,14 @@ async function bulkCreateQuestions(req, res, next) {
 
 async function getQuestions(req, res, next) {
   try {
-    const { topic, type, difficulty } = req.query;
+    const { topic, subtopic, type, difficulty, company } = req.query;
 
     const filters = {};
     if (topic) filters.topic = topic;
+    if (subtopic) filters.subtopic = subtopic;
     if (type) filters.type = type;
     if (difficulty) filters.difficulty = difficulty;
+    if (company) filters.company = company;
 
     const questions = await Question.find(filters)
       .sort({ createdAt: -1 })

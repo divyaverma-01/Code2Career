@@ -14,5 +14,3 @@ router.post("/", createQuestion);
 router.post("/bulk", bulkCreateQuestions);
 
 export default router;
-
-// ✅ all verified

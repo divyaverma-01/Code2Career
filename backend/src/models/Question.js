@@ -1,67 +1,81 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 
-const optionSchema = new Schema(
+const questionSchema = new mongoose.Schema(
   {
-    value: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-  },
-  { _id: false }
-);
-
-const questionSchema = new Schema(
-  {
-    questionText: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     type: {
       type: String,
-      enum: ["mcq", "paragraph", "code"],
+      enum: ["mcq", "code"],
       required: true,
+      default: "mcq",
     },
+
     topic: {
       type: String,
       required: true,
       trim: true,
     },
-    difficulty: {
-      type: String,
-      enum: ["Easy", "Medium", "Hard"],
-      default: "Medium",
-    },
-    marks: {
-      type: Number,
-      default: 5,
-      min: 0,
-    },
-    options: {
-      type: [optionSchema],
-      default: undefined,
-    },
-    correctAnswer: {
+
+    subtopic: {
       type: String,
       required: true,
       trim: true,
     },
-    expectedOutput: {
+
+    difficulty: {
       type: String,
+      enum: ["easy", "medium", "hard"],
+      required: true,
+    },
+
+    questionText: {
+      type: String,
+      required: true,
       trim: true,
     },
-    keywords: {
+
+    // ───── MCQ only ─────
+    options: {
       type: [String],
-      default: undefined,
+      required: function () {
+        return this.type === "mcq";
+      },
     },
+
+    correctAnswer: {
+      type: String,
+      required: function () {
+        return this.type === "mcq";
+      },
+      trim: true,
+    },
+
+    // ───── Code only (future) ─────
+    testCases: [
+      {
+        input: String,
+        output: String,
+      },
+    ],
+
+    constraints: String,
+
+    supportedLanguages: [String],
+
+    marks: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    companyTags: [String],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true },
 );
 
-//what does this signify?
-questionSchema.index({ topic: 1, difficulty: 1 });
+/**
+ * Indexes for fast dynamic test generation
+ */
+questionSchema.index({ topic: 1, subtopic: 1, difficulty: 1 });
+questionSchema.index({ companyTags: 1 });
 
-export default model("Question", questionSchema);
+export default mongoose.model("Question", questionSchema);

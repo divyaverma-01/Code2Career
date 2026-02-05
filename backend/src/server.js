@@ -3,10 +3,8 @@ import { connect } from "mongoose";
 import cors from "cors";
 import { configDotenv } from "dotenv";
 
-import feedbackReportRoutes from "./routes/feedbackReport.js";
 import questionRoutes from "./routes/questionRoutes.js";
 import testRoutes from "./routes/testRoutes.js";
-import testResultRoutes from "./routes/testResultRoutes.js";
 
 configDotenv(); // initialize env(environment variable)
 
@@ -23,7 +21,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: allowedOrigins.length > 0,
-  })
+  }),
 );
 
 app.use(json());
@@ -40,10 +38,8 @@ connect(MONGO_URI)
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch((error) => console.error("❌ MongoDB connection error:", error));
 
-app.use("/api/feedback", feedbackReportRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/tests", testRoutes);
-app.use("/api/test-results", testResultRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {
