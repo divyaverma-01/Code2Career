@@ -5,6 +5,7 @@ import { configDotenv } from "dotenv";
 
 import questionRoutes from "./routes/questionRoutes.js";
 import testRoutes from "./routes/testRoutes.js";
+import testAttemptRoutes from "./routes/testAttemptRoutes.js";
 
 configDotenv(); // initialize env(environment variable)
 
@@ -40,6 +41,7 @@ connect(MONGO_URI)
 
 app.use("/api/questions", questionRoutes);
 app.use("/api/tests", testRoutes);
+app.use("/api/test-attempts", testAttemptRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {
